@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy Birthday, My Love</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Nunito:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <canvas id="starfield" aria-hidden="true"></canvas>
+    <div class="floating-hearts" aria-hidden="true"></div>
+
+    <main class="page">
+      <section class="hero">
+        <div class="envelope-scene" aria-label="Animated birthday card">
+          <div class="envelope">
+            <div class="envelope__front"></div>
+            <div class="envelope__back"></div>
+            <div class="envelope__letter">
+              <p class="letter-text">Happy Birthday, my forever love!</p>
+            </div>
+            <div class="envelope__heart"></div>
+          </div>
+        </div>
+        <div class="hero__text">
+          <h1 class="hero__heading">Happy Birthday, My Brilliant Wife</h1>
+          <p class="hero__message">
+            You are the heartbeat of every adventure, the sparkle in every sunrise,
+            and the warm light that turns ordinary days into enchanted memories.
+            Tonight is for you — for the laughter, the dreams, and the endless love
+            we share.
+          </p>
+          <a
+            id="memoryButton"
+            class="memory-button"
+            href="#memory-lane"
+          >
+            Trip Down Memory Lane
+          </a>
+        </div>
+      </section>
+
+      <section class="crazy-love">
+        <h2>Forever Orbiting You</h2>
+        <p>
+          Like comets dancing in the galaxy, our love keeps swirling brighter.
+          Here’s to a lifetime of whirling giggles, unstoppable dreams, and a sky
+          full of wishes.
+        </p>
+        <div class="orbital-show" aria-hidden="true">
+          <div class="planet"></div>
+          <div class="ring ring--one"></div>
+          <div class="ring ring--two"></div>
+          <div class="ring ring--three"></div>
+        </div>
+      </section>
+
+      <section
+        id="memory-lane"
+        class="memory-lane"
+        aria-labelledby="memory-lane-title"
+      >
+        <header class="memory-header">
+          <div class="headline">
+            <p class="eyebrow">Our Story in Frames</p>
+            <h2 id="memory-lane-title">Trip Down Memory Lane</h2>
+            <p class="lede">
+              Every photo is a chapter of our love story, glowing with joy,
+              adventure, and a pinch of beautifully crazy energy. Scroll through
+              and relive our favourite sparkles — the video reel is cued up when
+              you’re ready to press play.
+            </p>
+          </div>
+        </header>
+
+        <div class="memory-layout">
+          <section class="memory-reel" aria-label="Featured memory video">
+            <div class="video-frame">
+              <video
+                controls
+                autoplay
+                muted
+                loop
+                playsinline
+                poster="public/video-poster.jpg"
+              >
+                <source src="public/video.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+              <div class="video-glow" aria-hidden="true"></div>
+            </div>
+            <div class="video-caption">
+              <h3>Our Highlight Reel</h3>
+              <p>
+                A little montage to remind you how unstoppable we are together.
+                Crank the volume, lean back, and smile with me.
+              </p>
+            </div>
+          </section>
+
+          <section class="memory-grid" aria-live="polite">
+            <h3 class="memory-grid__title">Our Magical Moments</h3>
+            <p class="memory-grid__subtitle">
+              Hover over each card to feel the moments shimmer back to life.
+            </p>
+            <div class="memory-gallery" data-gallery></div>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>Always yours, now and forever. 💖</p>
+    </footer>
+
+    <script src="public/memory-data.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
