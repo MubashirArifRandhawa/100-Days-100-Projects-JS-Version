@@ -36,14 +36,31 @@
             Tonight is for you — for the laughter, the dreams, and the endless love
             we share.
           </p>
-          <a
+          <button
             id="memoryButton"
             class="memory-button"
-            href="memories.html"
+            type="button"
+            aria-controls="memoryLane"
+            aria-expanded="false"
           >
             Trip Down Memory Lane
-          </a>
+          </button>
         </div>
+      </section>
+
+      <section
+        id="memoryLane"
+        class="memory-lane"
+        aria-live="polite"
+        aria-hidden="true"
+      >
+        <h2>Our Magical Moments</h2>
+        <p class="memory-intro">
+          Every photo is a chapter of our story, glowing with joy, adventure, and
+          a pinch of beautifully crazy energy. Scroll through and relive our
+          favorite sparks.
+        </p>
+        <div class="memory-gallery"></div>
       </section>
 
       <section class="crazy-love">

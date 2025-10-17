@@ -106,10 +106,6 @@ body::before {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
   overflow: hidden;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .memory-button::after {
@@ -211,148 +207,58 @@ body::before {
   animation: heartbeat 1.8s ease-in-out infinite;
 }
 
-.memory-page {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-.memory-header {
-  position: relative;
-  z-index: 2;
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 4rem 1.5rem 2rem;
-  display: grid;
-  gap: 2rem;
-}
-
-.back-home {
-  color: var(--accent);
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  text-decoration: none;
-  transition: transform 0.3s ease, color 0.3s ease;
-}
-
-.back-home:hover {
-  transform: translateX(-4px);
-  color: var(--accent-strong);
-}
-
-.headline .eyebrow {
-  font-size: 0.85rem;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.6);
-}
-
-.headline h1 {
-  font-family: "Great Vibes", cursive;
-  font-size: clamp(2.9rem, 5vw, 4.1rem);
-  color: #ffe4ff;
-  text-shadow: 0 0 25px rgba(255, 110, 173, 0.35), 0 0 8px rgba(255, 255, 255, 0.45);
-}
-
-.headline .lede {
-  max-width: 720px;
-  line-height: 1.8;
-  color: var(--text-muted);
-}
-
-.memory-layout {
-  position: relative;
-  z-index: 2;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 1rem 1.5rem 4rem;
-  display: grid;
-  gap: 3.5rem;
-}
-
-.memory-reel {
-  display: grid;
-  gap: 2rem;
-  align-items: center;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  background: rgba(21, 9, 36, 0.78);
-  border-radius: 30px;
-  padding: 2.5rem;
-  box-shadow: 0 35px 90px rgba(6, 2, 18, 0.65);
-}
-
-.video-frame {
-  position: relative;
-  border-radius: 24px;
-  overflow: hidden;
-  transform: translateZ(0);
-  box-shadow: 0 28px 70px rgba(255, 77, 158, 0.35);
-}
-
-.video-frame video {
-  display: block;
-  width: 100%;
-  border-radius: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  background: #000;
-}
-
-.video-glow {
-  position: absolute;
-  inset: -40%;
-  background: radial-gradient(circle, rgba(255, 77, 158, 0.3), transparent 60%);
-  filter: blur(40px);
-  animation: pulseGlow 6s ease-in-out infinite;
+.memory-lane {
+  background: rgba(21, 9, 36, 0.72);
+  border-radius: 28px;
+  padding: 3rem 2rem;
+  box-shadow: 0 40px 100px rgba(14, 3, 23, 0.65);
+  transform: translateY(80px);
+  opacity: 0;
   pointer-events: none;
+  transition: transform 0.8s cubic-bezier(0.18, 0.9, 0.32, 1.2),
+    opacity 0.8s ease;
 }
 
-.video-caption h2 {
-  font-size: clamp(1.8rem, 3vw, 2.4rem);
-  color: #ffe4ff;
-  margin-bottom: 0.8rem;
+.memory-lane.is-visible {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
 }
 
-.video-caption p {
+.memory-lane h2 {
+  font-family: "Great Vibes", cursive;
+  font-size: clamp(2.4rem, 4vw, 3.3rem);
+  color: #ffd1ff;
+  margin-bottom: 1rem;
+}
+
+.memory-intro {
   color: var(--text-muted);
-  line-height: 1.7;
-}
-
-.memory-grid {
-  background: rgba(17, 4, 32, 0.78);
-  border-radius: 34px;
-  padding: 3rem 2.5rem 3.5rem;
-  box-shadow: 0 40px 110px rgba(7, 1, 18, 0.7);
+  margin-bottom: 2.5rem;
+  max-width: 640px;
 }
 
 .memory-gallery {
   display: grid;
-  gap: 2.5rem;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  position: relative;
+  gap: 1.8rem;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
 }
 
 .memory-card {
   position: relative;
-  border-radius: 26px;
-  background: linear-gradient(160deg, rgba(255, 255, 255, 0.08), rgba(255, 77, 158, 0.12));
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  box-shadow: 0 28px 80px rgba(7, 2, 20, 0.65);
+  padding: 1.8rem 1.4rem 1.6rem;
+  border-radius: 22px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  box-shadow: 0 30px 50px rgba(7, 3, 14, 0.6);
   overflow: hidden;
-  transform: translateY(50px) scale(0.96);
+  transform: translateY(40px) scale(0.98);
   opacity: 0;
-  transition: transform 0.85s cubic-bezier(0.18, 0.9, 0.32, 1.3),
-    opacity 0.85s ease;
-  transition-delay: calc(var(--card-index) * 80ms);
-  will-change: transform;
-  transform-style: preserve-3d;
+  transition: transform 0.8s ease, opacity 0.8s ease;
 }
 
 .memory-card.is-visible {
-  transform: translateY(0) scale(1) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  transform: translateY(0) scale(1);
   opacity: 1;
 }
 
@@ -360,67 +266,30 @@ body::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.35), transparent 60%);
-  opacity: 0.45;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.24), transparent);
+  opacity: 0.6;
   pointer-events: none;
 }
 
-.memory-card__media {
-  position: relative;
-  display: grid;
-  gap: 1.35rem;
-  padding: 1.8rem 1.6rem 2rem;
-}
-
-.memory-card__media img {
+.memory-card img {
   width: 100%;
   aspect-ratio: 4 / 3;
-  border-radius: 20px;
+  border-radius: 16px;
   object-fit: cover;
-  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.24), 0 25px 45px rgba(0, 0, 0, 0.45);
-  filter: saturate(1.18) contrast(1.08);
+  margin-bottom: 1.1rem;
+  filter: saturate(1.15) contrast(1.1);
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.2);
 }
 
-.memory-card__caption h3 {
-  font-size: 1.28rem;
-  margin-bottom: 0.45rem;
-  color: #ffeaff;
+.memory-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.4rem;
+  color: #ffe5ff;
 }
 
-.memory-card__caption p {
+.memory-card p {
   color: var(--text-muted);
-  line-height: 1.6;
-  font-size: 1rem;
-}
-
-.memory-card__meta {
-  margin-top: 0.85rem;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.35rem 0.75rem;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.12);
-  color: rgba(255, 255, 255, 0.75);
-  font-size: 0.78rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.memory-empty {
-  grid-column: 1 / -1;
-  text-align: center;
-  color: rgba(255, 255, 255, 0.6);
-  padding: 3rem 1rem;
-  border-radius: 24px;
-  border: 1px dashed rgba(255, 255, 255, 0.25);
-  background: rgba(255, 255, 255, 0.05);
-}
-
-@media (hover: none) {
-  .memory-card.is-visible {
-    transform: translateY(0) scale(1);
-  }
+  font-size: 0.95rem;
 }
 
 .crazy-love {

@@ -1,9 +1,120 @@
+const memoryButton = document.querySelector('#memoryButton');
+const memoryLane = document.querySelector('#memoryLane');
+const gallery = document.querySelector('.memory-gallery');
 const heartsContainer = document.querySelector('.floating-hearts');
 const starfield = document.querySelector('#starfield');
 
-function spawnHearts() {
-  if (!heartsContainer) return;
+const memories = [
+  {
+    title: 'Sunset Promises',
+    description:
+      'The evening we watched the sun melt into the sea and promised a lifetime of adventures.',
+    image:
+      'https://images.unsplash.com/photo-1549887534-1541e9326642?auto=format&fit=crop&w=800&q=80',
+  },
+  {
+    title: 'Laughing in the Rain',
+    description:
+      'When the rainstorm found us dancing barefoot in the street, laughing like teenagers.',
+    image:
+      'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=800&q=80',
+  },
+  {
+    title: 'First Snowfall Escape',
+    description:
+      'Our spontaneous road trip into the mountains, warmed only by cocoa and your smile.',
+    image:
+      'https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=800&q=80',
+  },
+  {
+    title: 'Kitchen Serenade',
+    description:
+      'The midnight snacks, spinning you around the kitchen to our song on repeat.',
+    image:
+      'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80',
+  },
+  {
+    title: 'Beachside Fireworks',
+    description:
+      'Cotton candy skies and fireworks echoing the spark in your eyes.',
+    image:
+      'https://images.unsplash.com/photo-1523419409543-0c1df022bdd1?auto=format&fit=crop&w=800&q=80',
+  },
+  {
+    title: 'Wanderlust Souls',
+    description:
+      'Maps, passports, and the thrill of exploring the world hand-in-hand.',
+    image:
+      'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=800&q=80',
+  },
+];
 
+function createMemoryCards() {
+  const fragment = document.createDocumentFragment();
+
+  memories.forEach((memory, index) => {
+    const card = document.createElement('article');
+    card.className = 'memory-card';
+    card.style.transitionDelay = `${index * 0.1}s`;
+
+    const img = document.createElement('img');
+    img.src = memory.image;
+    img.alt = `${memory.title} photo`;
+
+    const heading = document.createElement('h3');
+    heading.textContent = memory.title;
+
+    const description = document.createElement('p');
+    description.textContent = memory.description;
+
+    card.append(img, heading, description);
+    fragment.append(card);
+  });
+
+  gallery.append(fragment);
+}
+
+function revealMemories() {
+  memoryLane.classList.add('is-visible');
+  memoryLane.setAttribute('aria-hidden', 'false');
+  memoryButton?.setAttribute('aria-expanded', 'true');
+
+  document.querySelectorAll('.memory-card').forEach((card) => {
+    requestAnimationFrame(() => {
+      card.classList.add('is-visible');
+    });
+  });
+
+  // unleash starburst
+  unleashStarburst();
+}
+
+function hideMemories() {
+  memoryLane.classList.remove('is-visible');
+  memoryLane.setAttribute('aria-hidden', 'true');
+  memoryButton?.setAttribute('aria-expanded', 'false');
+
+  document
+    .querySelectorAll('.memory-card')
+    .forEach((card) => card.classList.remove('is-visible'));
+}
+
+memoryButton?.addEventListener('click', () => {
+  if (!memoryLane.classList.contains('is-visible')) {
+    revealMemories();
+    if (memoryButton) {
+      memoryButton.textContent = 'Replay the Magic';
+    }
+  } else {
+    hideMemories();
+    setTimeout(() => {
+      void memoryLane.offsetHeight;
+      revealMemories();
+    }, 400);
+  }
+});
+
+function spawnHearts() {
   const heart = document.createElement('div');
   heart.className = 'heart-shape';
   heart.style.left = `${Math.random() * 100}%`;
@@ -24,23 +135,19 @@ function setupHearts() {
 function unleashStarburst() {
   if (!starfield) return;
   const ctx = starfield.getContext('2d');
+  starfield.width = window.innerWidth;
+  starfield.height = window.innerHeight;
 
-  function resizeCanvas() {
-    starfield.width = window.innerWidth;
-    starfield.height = window.innerHeight;
-  }
-
-  resizeCanvas();
-
-  const stars = Array.from({ length: 140 }, () => ({
+  const stars = Array.from({ length: 120 }, () => ({
     x: Math.random() * starfield.width,
     y: Math.random() * starfield.height,
-    radius: Math.random() * 1.4 + 0.4,
+    radius: Math.random() * 1.5 + 0.5,
     hue: Math.floor(Math.random() * 40) + 320,
     alpha: Math.random() * 0.5 + 0.4,
-    velocity: Math.random() * 1.5 + 0.6,
+    velocity: Math.random() * 1.5 + 0.5,
   }));
 
+  let animationFrame;
   let frame = 0;
 
   function animate() {
@@ -67,12 +174,22 @@ function unleashStarburst() {
       }
     });
 
-    requestAnimationFrame(animate);
+    animationFrame = requestAnimationFrame(animate);
   }
 
+  cancelAnimationFrame(animationFrame);
   animate();
-  window.addEventListener('resize', resizeCanvas);
 }
 
+function handleResize() {
+  if (!starfield) return;
+  starfield.width = window.innerWidth;
+  starfield.height = window.innerHeight;
+}
+
+window.addEventListener('resize', handleResize);
+
+createMemoryCards();
+hideMemories();
 setupHearts();
-unleashStarburst();
+handleResize();
