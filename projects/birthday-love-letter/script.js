@@ -1,11 +1,120 @@
+const memoryButton = document.querySelector('#memoryButton');
+const memoryLane = document.querySelector('#memoryLane');
+const gallery = document.querySelector('.memory-gallery');
 const heartsContainer = document.querySelector('.floating-hearts');
 const starfield = document.querySelector('#starfield');
-const memoryButton = document.querySelector('#memoryButton');
-const gallery = document.querySelector('[data-gallery]');
+
+const memories = [
+  {
+    title: 'Sunset Promises',
+    description:
+      'The evening we watched the sun melt into the sea and promised a lifetime of adventures.',
+    image:
+      'https://images.unsplash.com/photo-1549887534-1541e9326642?auto=format&fit=crop&w=800&q=80',
+  },
+  {
+    title: 'Laughing in the Rain',
+    description:
+      'When the rainstorm found us dancing barefoot in the street, laughing like teenagers.',
+    image:
+      'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=800&q=80',
+  },
+  {
+    title: 'First Snowfall Escape',
+    description:
+      'Our spontaneous road trip into the mountains, warmed only by cocoa and your smile.',
+    image:
+      'https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=800&q=80',
+  },
+  {
+    title: 'Kitchen Serenade',
+    description:
+      'The midnight snacks, spinning you around the kitchen to our song on repeat.',
+    image:
+      'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80',
+  },
+  {
+    title: 'Beachside Fireworks',
+    description:
+      'Cotton candy skies and fireworks echoing the spark in your eyes.',
+    image:
+      'https://images.unsplash.com/photo-1523419409543-0c1df022bdd1?auto=format&fit=crop&w=800&q=80',
+  },
+  {
+    title: 'Wanderlust Souls',
+    description:
+      'Maps, passports, and the thrill of exploring the world hand-in-hand.',
+    image:
+      'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=800&q=80',
+  },
+];
+
+function createMemoryCards() {
+  const fragment = document.createDocumentFragment();
+
+  memories.forEach((memory, index) => {
+    const card = document.createElement('article');
+    card.className = 'memory-card';
+    card.style.transitionDelay = `${index * 0.1}s`;
+
+    const img = document.createElement('img');
+    img.src = memory.image;
+    img.alt = `${memory.title} photo`;
+
+    const heading = document.createElement('h3');
+    heading.textContent = memory.title;
+
+    const description = document.createElement('p');
+    description.textContent = memory.description;
+
+    card.append(img, heading, description);
+    fragment.append(card);
+  });
+
+  gallery.append(fragment);
+}
+
+function revealMemories() {
+  memoryLane.classList.add('is-visible');
+  memoryLane.setAttribute('aria-hidden', 'false');
+  memoryButton?.setAttribute('aria-expanded', 'true');
+
+  document.querySelectorAll('.memory-card').forEach((card) => {
+    requestAnimationFrame(() => {
+      card.classList.add('is-visible');
+    });
+  });
+
+  // unleash starburst
+  unleashStarburst();
+}
+
+function hideMemories() {
+  memoryLane.classList.remove('is-visible');
+  memoryLane.setAttribute('aria-hidden', 'true');
+  memoryButton?.setAttribute('aria-expanded', 'false');
+
+  document
+    .querySelectorAll('.memory-card')
+    .forEach((card) => card.classList.remove('is-visible'));
+}
+
+memoryButton?.addEventListener('click', () => {
+  if (!memoryLane.classList.contains('is-visible')) {
+    revealMemories();
+    if (memoryButton) {
+      memoryButton.textContent = 'Replay the Magic';
+    }
+  } else {
+    hideMemories();
+    setTimeout(() => {
+      void memoryLane.offsetHeight;
+      revealMemories();
+    }, 400);
+  }
+});
 
 function spawnHearts() {
-  if (!heartsContainer) return;
-
   const heart = document.createElement('div');
   heart.className = 'heart-shape';
   heart.style.left = `${Math.random() * 100}%`;
@@ -26,23 +135,19 @@ function setupHearts() {
 function unleashStarburst() {
   if (!starfield) return;
   const ctx = starfield.getContext('2d');
+  starfield.width = window.innerWidth;
+  starfield.height = window.innerHeight;
 
-  function resizeCanvas() {
-    starfield.width = window.innerWidth;
-    starfield.height = window.innerHeight;
-  }
-
-  resizeCanvas();
-
-  const stars = Array.from({ length: 140 }, () => ({
+  const stars = Array.from({ length: 120 }, () => ({
     x: Math.random() * starfield.width,
     y: Math.random() * starfield.height,
-    radius: Math.random() * 1.4 + 0.4,
+    radius: Math.random() * 1.5 + 0.5,
     hue: Math.floor(Math.random() * 40) + 320,
     alpha: Math.random() * 0.5 + 0.4,
-    velocity: Math.random() * 1.5 + 0.6,
+    velocity: Math.random() * 1.5 + 0.5,
   }));
 
+  let animationFrame;
   let frame = 0;
 
   function animate() {
@@ -69,132 +174,22 @@ function unleashStarburst() {
       }
     });
 
-    requestAnimationFrame(animate);
+    animationFrame = requestAnimationFrame(animate);
   }
 
+  cancelAnimationFrame(animationFrame);
   animate();
-  window.addEventListener('resize', resizeCanvas);
 }
 
-function createMemoryCard(memory, index) {
-  const article = document.createElement('article');
-  article.className = 'memory-card';
-  article.style.setProperty('--card-index', index);
-
-  const figure = document.createElement('figure');
-  figure.className = 'memory-card__media';
-
-  const image = document.createElement('img');
-  image.loading = 'lazy';
-  image.src = memory.image;
-  image.alt = memory.alt ?? `${memory.title} photograph`;
-
-  const figcaption = document.createElement('figcaption');
-  figcaption.className = 'memory-card__caption';
-  figcaption.innerHTML = `
-    <h4>${memory.title}</h4>
-    <p>${memory.description}</p>
-    ${
-      memory.meta
-        ? `<span class="memory-card__meta">${memory.meta}</span>`
-        : ''
-    }
-  `;
-
-  figure.append(image, figcaption);
-  article.append(figure);
-
-  return article;
+function handleResize() {
+  if (!starfield) return;
+  starfield.width = window.innerWidth;
+  starfield.height = window.innerHeight;
 }
 
-function populateGallery() {
-  if (!gallery) return [];
+window.addEventListener('resize', handleResize);
 
-  const data = Array.isArray(window.MEMORY_DATA) ? window.MEMORY_DATA : [];
-
-  if (data.length === 0) {
-    const fallback = document.createElement('p');
-    fallback.className = 'memory-empty';
-    fallback.textContent =
-      'Add your photos inside public/images and update public/memory-data.js to see them glow here!';
-    gallery.append(fallback);
-    return [];
-  }
-
-  const fragment = document.createDocumentFragment();
-  const cards = data.map((memory, index) => {
-    const card = createMemoryCard(memory, index);
-    fragment.append(card);
-    return card;
-  });
-
-  gallery.append(fragment);
-  return cards;
-}
-
-function setupRevealAnimations(cards) {
-  if (!gallery || !cards.length) return;
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-        }
-      });
-    },
-    {
-      threshold: 0.2,
-    }
-  );
-
-  cards.forEach((card) => observer.observe(card));
-}
-
-function setupTilt() {
-  if (!gallery) return;
-  if (window.matchMedia('(hover: none)').matches) return;
-
-  gallery.addEventListener('pointermove', (event) => {
-    const target = event.target.closest('.memory-card');
-    if (!target) return;
-
-    const rect = target.getBoundingClientRect();
-    const rotateY = ((event.clientX - rect.left) / rect.width - 0.5) * 12;
-    const rotateX = ((event.clientY - rect.top) / rect.height - 0.5) * -12;
-    target.style.setProperty('--tilt-x', `${rotateX}deg`);
-    target.style.setProperty('--tilt-y', `${rotateY}deg`);
-  });
-
-  gallery.addEventListener('pointerleave', () => {
-    gallery.querySelectorAll('.memory-card').forEach((card) => {
-      card.style.removeProperty('--tilt-x');
-      card.style.removeProperty('--tilt-y');
-    });
-  });
-}
-
-function enableMemoryScroll() {
-  if (!memoryButton) return;
-
-  memoryButton.addEventListener('click', (event) => {
-    const targetId = memoryButton.getAttribute('href');
-    if (!targetId || !targetId.startsWith('#')) return;
-
-    const section = document.querySelector(targetId);
-    if (!section) return;
-
-    event.preventDefault();
-    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    section.classList.add('is-highlighted');
-    setTimeout(() => section.classList.remove('is-highlighted'), 1200);
-  });
-}
-
+createMemoryCards();
+hideMemories();
 setupHearts();
-unleashStarburst();
-enableMemoryScroll();
-
-const memoryCards = populateGallery();
-setupRevealAnimations(memoryCards);
-setupTilt();
+handleResize();

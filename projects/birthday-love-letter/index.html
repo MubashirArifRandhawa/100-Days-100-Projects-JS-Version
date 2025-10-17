@@ -36,14 +36,31 @@
             Tonight is for you — for the laughter, the dreams, and the endless love
             we share.
           </p>
-          <a
+          <button
             id="memoryButton"
             class="memory-button"
-            href="#memory-lane"
+            type="button"
+            aria-controls="memoryLane"
+            aria-expanded="false"
           >
             Trip Down Memory Lane
-          </a>
+          </button>
         </div>
+      </section>
+
+      <section
+        id="memoryLane"
+        class="memory-lane"
+        aria-live="polite"
+        aria-hidden="true"
+      >
+        <h2>Our Magical Moments</h2>
+        <p class="memory-intro">
+          Every photo is a chapter of our story, glowing with joy, adventure, and
+          a pinch of beautifully crazy energy. Scroll through and relive our
+          favorite sparks.
+        </p>
+        <div class="memory-gallery"></div>
       </section>
 
       <section class="crazy-love">
@@ -60,66 +77,12 @@
           <div class="ring ring--three"></div>
         </div>
       </section>
-
-      <section
-        id="memory-lane"
-        class="memory-lane"
-        aria-labelledby="memory-lane-title"
-      >
-        <header class="memory-header">
-          <div class="headline">
-            <p class="eyebrow">Our Story in Frames</p>
-            <h2 id="memory-lane-title">Trip Down Memory Lane</h2>
-            <p class="lede">
-              Every photo is a chapter of our love story, glowing with joy,
-              adventure, and a pinch of beautifully crazy energy. Scroll through
-              and relive our favourite sparkles — the video reel is cued up when
-              you’re ready to press play.
-            </p>
-          </div>
-        </header>
-
-        <div class="memory-layout">
-          <section class="memory-reel" aria-label="Featured memory video">
-            <div class="video-frame">
-              <video
-                controls
-                autoplay
-                muted
-                loop
-                playsinline
-                poster="public/video-poster.jpg"
-              >
-                <source src="public/video.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
-              <div class="video-glow" aria-hidden="true"></div>
-            </div>
-            <div class="video-caption">
-              <h3>Our Highlight Reel</h3>
-              <p>
-                A little montage to remind you how unstoppable we are together.
-                Crank the volume, lean back, and smile with me.
-              </p>
-            </div>
-          </section>
-
-          <section class="memory-grid" aria-live="polite">
-            <h3 class="memory-grid__title">Our Magical Moments</h3>
-            <p class="memory-grid__subtitle">
-              Hover over each card to feel the moments shimmer back to life.
-            </p>
-            <div class="memory-gallery" data-gallery></div>
-          </section>
-        </div>
-      </section>
     </main>
 
     <footer class="footer">
       <p>Always yours, now and forever. 💖</p>
     </footer>
 
-    <script src="public/memory-data.js"></script>
     <script src="script.js"></script>
   </body>
 </html>
